@@ -49,7 +49,8 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
     String[] subjects,branches,shelves;
     RelativeLayout aab;
 
-    String author ,title,ISBN  ,subject ,shelfnumber, branch;
+    String author;
+    String title,ISBN  ,subject ,shelfnumber, branch;
 
     private static final int PICK_IMAGE_REQUEST = 234;
 
