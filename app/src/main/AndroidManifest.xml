@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.soumyaagarwal.libraryontipsadmin">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".admin_page" />
+        <activity android:name=".log_in"></activity>
+        <activity android:name=".sign_up" />
+        <activity
+            android:name=".AddBook.addbook"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".AddBook.addcopies" />
+        <activity android:name=".RegisterStudent.registerstudent" />
+        <activity
+            android:name=".ViewBook.viewbook"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".LibraryMap.MapL" />
+        <activity android:name=".Student.BookIssue" />
+        <activity android:name=".Student.studentverify" />
+        <activity android:name=".Student.student" />
+        <activity android:name=".Student.BookReissue" />
+        <activity android:name=".ViewBook.BD" />
+        <activity android:name=".BookReturn" />
+
+            <receiver
+            android:name=".Internet.ConnectivityReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".NavDrawer.snackbar"></activity>
+    </application>
+
+</manifest>

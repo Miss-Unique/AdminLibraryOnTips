@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="subjects" >
+        <item>DataBase Management System</item>
+        <item>Industrial Economics</item>
+        <item>Computer Architecture and Design</item>
+        <item>Control System</item>
+        <item>Computer Networks</item>
+        <item>System Analysis and Design</item>
+        <item>Engineering Physics</item>
+        <item>Engineering Mathematics</item>
+        <item>Chemistry</item>
+
+    </string-array>
+
+    <string-array name="branches" >
+        <item>Information Technology</item>
+        <item>Mechanical Engineering</item>
+        <item>Computer Science</item>
+        <item>Electrical Engineering</item>
+
+    </string-array>
+
+    <string-array name="shelves" >
+        <item>A-1</item>
+        <item>B-1</item>
+        <item>C-1</item>
+        <item>D-1</item>
+        <item>E-1</item>
+        <item>F-1</item>
+        <item>G-1</item>
+        <item>H-1</item>
+        <item>I-1</item>
+        <item>J-1</item>
+        <item>A-2</item>
+        <item>B-2</item>
+        <item>C-2</item>
+        <item>D-2</item>
+        <item>E-2</item>
+        <item>F-2</item>
+        <item>G-2</item>
+        <item>H-2</item>
+        <item>I-2</item>
+        <item>J-2</item>
+
+    </string-array>
+
+</resources>

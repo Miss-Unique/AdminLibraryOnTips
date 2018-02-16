@@ -1,0 +1,80 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/light"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/input_searchbook"
+                app:errorTextAppearance="@style/errordark"
+                app:hintTextAppearance="@style/labeldark">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/search_book"
+                    android:hint="Title"
+                    android:padding="5dp"
+                    android:inputType="textFilter"
+                    android:layout_margin="2dp"
+                    android:textCursorDrawable="@null"
+                    android:background="@drawable/register"
+                    android:drawableRight="@drawable/ic_search"/>
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/input_searchbooksubject"
+                app:errorTextAppearance="@style/errordark"
+                app:hintTextAppearance="@style/labeldark">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/search_book_subject"
+                    android:hint="Author"
+                    android:textCursorDrawable="@null"
+                    android:inputType="textFilter"
+                    android:background="@drawable/register"
+                    android:padding="5dp"
+                    android:drawableRight="@drawable/ic_search"
+                    android:layout_margin="2dp"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/author"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:background="@color/dark" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="8dp"
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+</FrameLayout>

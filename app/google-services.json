@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "830930468824",
+    "firebase_url": "https://libraryontips.firebaseio.com",
+    "project_id": "libraryontips",
+    "storage_bucket": "libraryontips.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830930468824:android:b0f1ddf7b235e5f6",
+        "android_client_info": {
+          "package_name": "com.example.rajk.libraryontips"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830930468824-gj3uof14lj2crdn9bg3tcbuldhbpuo5q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rajk.libraryontips",
+            "certificate_hash": "a03fa1cee1cf2412ce91c65c212248b815c6a1bf"
+          }
+        },
+        {
+          "client_id": "830930468824-uum3vd5r3j8ko0dho6119ah9snh995v9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx14fR3zftmmicwH9wWGPyIzIYu-NH9zE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830930468824-uum3vd5r3j8ko0dho6119ah9snh995v9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830930468824:android:b19bef116a75f28f",
+        "android_client_info": {
+          "package_name": "com.example.soumyaagarwal.libraryontipsadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830930468824-f2u172huq9pep81ktb50mbe40st20vil.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.soumyaagarwal.libraryontipsadmin",
+            "certificate_hash": "53f07998ce5059cef18d91184819c3eeecf8844e"
+          }
+        },
+        {
+          "client_id": "830930468824-uum3vd5r3j8ko0dho6119ah9snh995v9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx14fR3zftmmicwH9wWGPyIzIYu-NH9zE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830930468824-uum3vd5r3j8ko0dho6119ah9snh995v9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

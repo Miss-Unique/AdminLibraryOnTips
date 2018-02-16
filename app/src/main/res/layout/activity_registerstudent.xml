@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/dark"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:src="@mipmap/ic_launcher" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/light"
+        android:textSize="50dp"
+        android:text="Register Student"
+        android:fontFamily="cursive"
+        android:padding="4dp"
+        android:id="@+id/head"
+        android:textAlignment="center"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorTextAppearance="@style/error"
+        app:hintTextAppearance="@style/label"
+        android:layout_margin="5dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/name"
+            android:hint="Student Name"
+            android:padding="5dp"
+            android:inputType="textPersonName"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/register"
+            android:layout_margin="2dp"
+            android:drawableRight="@drawable/ic_name" />
+</android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_rollno"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorTextAppearance="@style/error"
+        app:hintTextAppearance="@style/label"
+        android:layout_margin="5dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_centerHorizontal="true"
+            android:hint="Roll Number (eg: ipg_2015068)"
+            android:inputType="text"
+            android:id="@+id/rollno"
+            android:padding="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/register"
+            android:layout_margin="2dp"
+            android:drawableRight="@drawable/ic_email" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_stupassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorTextAppearance="@style/error"
+        app:hintTextAppearance="@style/label"
+        android:layout_margin="5dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_centerHorizontal="true"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:id="@+id/stupassword"
+            android:padding="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/register"
+            android:layout_margin="2dp"
+            android:drawableRight="@drawable/ic_password" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/studentsignup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:textSize="15dp"
+        android:background="@color/light"
+        android:text="Register"
+        android:textColor="@color/black" />
+</LinearLayout>

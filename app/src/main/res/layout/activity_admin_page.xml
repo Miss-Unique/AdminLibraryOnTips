@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_admin_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="@color/dark"
+    tools:context="com.example.soumyaagarwal.libraryontipsadmin.admin_page"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/light"
+        android:padding="30dp"
+        android:layout_margin="15dp">
+
+        <LinearLayout
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/dark"
+            android:orientation="horizontal"
+            android:layout_marginBottom="7dp"></LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Book"
+            android:id="@+id/addbook"
+            android:layout_margin="5dp"
+            android:padding="7dp"
+            android:background="@color/dark"
+            android:textColor="@color/light"/>
+
+        <Button
+            android:text="Register Student"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/registerstudent"
+            android:layout_margin="5dp"
+            android:padding="7dp"
+            android:background="@color/dark"
+            android:textColor="@color/light"/>
+
+        <Button
+            android:text="View Book"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/viewbook"
+            android:layout_margin="5dp"
+            android:padding="7dp"
+            android:background="@color/dark"
+            android:textColor="@color/light"/>
+
+        <Button
+            android:text="STUDENT"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/student"
+            android:layout_margin="5dp"
+            android:padding="7dp"
+            android:background="@color/dark"
+            android:textColor="@color/light"/>
+
+        <Button
+            android:text="RETURN BOOK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/returnbook"
+            android:layout_margin="5dp"
+            android:padding="7dp"
+            android:background="@color/dark"
+            android:textColor="@color/light"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/dark"
+            android:orientation="horizontal"
+            android:layout_marginTop="7dp"></LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

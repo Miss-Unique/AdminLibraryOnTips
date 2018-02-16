@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:padding="5dp"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Return Book"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/ReturnbookButton" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Scan Barcode"
+            android:textSize="18sp"
+            android:padding="10dp"
+            android:background="@drawable/register"
+            android:gravity="fill_horizontal"
+            android:id="@+id/returnBarCode"
+            android:layout_marginTop="83dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:inputType="number" />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SCAN BARCODE"
+            android:id="@+id/scanReturnBarCode"
+            android:layout_below="@+id/returnBarCode"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
