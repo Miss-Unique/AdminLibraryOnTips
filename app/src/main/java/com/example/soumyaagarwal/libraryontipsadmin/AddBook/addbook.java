@@ -8,17 +8,17 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,18 +45,15 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
     EditText booktitle,bookauthor,bookISBN;
     AutoCompleteTextView booksubject,bookshelfnumber,bookbranch;
     Button done;
-    TextInputLayout input_booktitle,input_bookauthor,input_booksubject,input_bookISBN,input_bookshelfnumber,input_bookbranch;
     String[] subjects,branches,shelves;
-    RelativeLayout aab;
+    LinearLayout parent;
 
     String author;
-    String title,ISBN  ,subject ,shelfnumber, branch;
+    String title, ISBN, subject, shelfnumber, branch;
 
     private static final int PICK_IMAGE_REQUEST = 234;
 
-    private Button buttonChoose;
-
-    private ImageView imageView;
+    private ImageButton imageButton;
     private StorageReference mStorageRef;
     private Uri filePath;
 
@@ -65,12 +62,6 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addbook);
 
-        input_bookauthor= (TextInputLayout)findViewById(R.id.input_bookauthor);
-        input_bookISBN= (TextInputLayout)findViewById(R.id.input_bookISBN);
-        input_bookshelfnumber= (TextInputLayout)findViewById(R.id.input_bookshelfnumber);
-        input_booksubject= (TextInputLayout)findViewById(R.id.input_booksubject);
-        input_booktitle= (TextInputLayout)findViewById(R.id.input_booktitle);
-        input_bookbranch = (TextInputLayout)findViewById(R.id.input_bookbranch);
         bookauthor = (EditText)findViewById(R.id.bookauthor);
         bookISBN = (EditText)findViewById(R.id.bookISBN);
         bookshelfnumber = (AutoCompleteTextView) findViewById(R.id.bookshelfnumber);
@@ -80,10 +71,8 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        aab = (RelativeLayout)findViewById(R.id.aab);
-        buttonChoose = (Button) findViewById(R.id.buttonChoose);
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        imageView = (ImageView) findViewById(R.id.imageView);
+        imageButton = (ImageButton) findViewById(R.id.imageView);
         done = (Button)findViewById(R.id.done);
 
         done.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +103,7 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
         bookshelfnumber.setThreshold(1);//will start working from first character
         bookshelfnumber.setTextColor(Color.BLACK);
 
-        buttonChoose.setOnClickListener(new View.OnClickListener() {
+        imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showFileChooser();
@@ -147,73 +136,7 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
         shelfnumber = bookshelfnumber.getText().toString().trim();
         branch = bookbranch.getText().toString().trim();
 
-            if (title.isEmpty()) {
-                input_booktitle.setError("Enter a valid Contact Number");
-                if(booktitle.requestFocus())
-                {
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                }
-            } else
-            {
-                input_booktitle.setErrorEnabled(false);
-            }
-
-            if (author.isEmpty()) {
-                input_bookauthor.setError("Field cannot be empty");
-                if(bookauthor.requestFocus())
-                {
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                }
-
-            } else
-            {
-                input_bookauthor.setErrorEnabled(false);
-            }
-
-            if (ISBN.isEmpty()) {
-                input_bookISBN.setError("Field cannot be empty");
-                if(bookISBN.requestFocus())
-                {
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                }
-            } else
-            {
-                input_bookISBN.setErrorEnabled(false);
-            }
-
-            if (subject.isEmpty()) {
-                input_booksubject.setError("Select one from the list");
-                if(booksubject.requestFocus())
-                {
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                }
-            } else
-            {
-                input_booksubject.setErrorEnabled(false);
-            }
-
-            if (shelfnumber.isEmpty()) {
-                input_bookshelfnumber.setError("Select one from the list");
-                if(bookshelfnumber.requestFocus())
-                {
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                }
-            } else
-            {
-                input_bookshelfnumber.setErrorEnabled(false);
-            }
-
-            if (branch.isEmpty()) {
-                input_bookbranch.setError("Select one from the list");
-                if(bookbranch.requestFocus())
-                {
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                }
-            } else
-            {
-                input_bookbranch.setErrorEnabled(false);
-            }
-            if (filePath==null)
+            if (title.isEmpty()&&author.isEmpty()&&ISBN.isEmpty()&&subject.isEmpty()&&shelfnumber.isEmpty()&&branch.isEmpty()&&filePath==null)
             {
                 Toast.makeText(addbook.this, "Choose an Image", Toast.LENGTH_SHORT).show();
             }
@@ -257,8 +180,9 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
         {
             message = "Sorry! Not connected to internet";
             color = Color.RED;
+
             Snackbar snackbar = Snackbar
-                    .make(aab, message, Snackbar.LENGTH_LONG);
+                    .make(parent, message, Snackbar.LENGTH_LONG);
 
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -295,7 +219,7 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
             //data.getType()
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageView.setImageBitmap(bitmap);
+                imageButton.setImageBitmap(bitmap);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -315,7 +239,6 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
-
                             Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
                         }
                     })
@@ -323,7 +246,6 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
                         @Override
                         public void onFailure(@NonNull Exception exception) {
                             progressDialog.dismiss();
-
                             Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     })

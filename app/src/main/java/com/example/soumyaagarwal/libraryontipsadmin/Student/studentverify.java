@@ -1,6 +1,8 @@
 package com.example.soumyaagarwal.libraryontipsadmin.Student;
 
 import android.content.Intent;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,9 +26,9 @@ public class studentverify extends AppCompatActivity {
 
     EditText verifyrollno;
     DatabaseReference mDatabase,db;
-    int l=0,i,p;
     String sturollno;
     Button check;
+    CoordinatorLayout parentlayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class studentverify extends AppCompatActivity {
         verifyrollno = (EditText)findViewById(R.id.verifyrollno);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         check = (Button)findViewById(R.id.check);
+        parentlayout = (CoordinatorLayout)findViewById(R.id.parent_verify_student);
 
         check.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +58,10 @@ public class studentverify extends AppCompatActivity {
                         }
                         else
                         {
-                            Toast.makeText(studentverify.this, "The Student is not REGISTERED", Toast.LENGTH_SHORT).show();
+                            Snackbar snackbar = Snackbar
+                                    .make(parentlayout, "Either Email or Password is wrong", Snackbar.LENGTH_LONG);
+
+                            snackbar.show();
                         }
                     }
 

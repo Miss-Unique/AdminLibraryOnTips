@@ -59,10 +59,62 @@
       },
       "oauth_client": [
         {
+          "client_id": "830930468824-0il2bj5frb17ci41g75jfb36krskmjb7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.soumyaagarwal.libraryontipsadmin",
+            "certificate_hash": "06af94c4d1833bb7498c9e16fd9331658987093c"
+          }
+        },
+        {
           "client_id": "830930468824-f2u172huq9pep81ktb50mbe40st20vil.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.soumyaagarwal.libraryontipsadmin",
+            "certificate_hash": "53f07998ce5059cef18d91184819c3eeecf8844e"
+          }
+        },
+        {
+          "client_id": "830930468824-uum3vd5r3j8ko0dho6119ah9snh995v9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx14fR3zftmmicwH9wWGPyIzIYu-NH9zE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830930468824-uum3vd5r3j8ko0dho6119ah9snh995v9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830930468824:android:60dc064e7a3dd2e2",
+        "android_client_info": {
+          "package_name": "com.example.soumyaagarwal.lot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830930468824-rb5iu8ae495ha4i01rrrjk11u18jacmb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.soumyaagarwal.lot",
             "certificate_hash": "53f07998ce5059cef18d91184819c3eeecf8844e"
           }
         },

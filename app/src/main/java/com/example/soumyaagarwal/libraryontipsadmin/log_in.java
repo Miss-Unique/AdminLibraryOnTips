@@ -1,16 +1,21 @@
 package com.example.soumyaagarwal.libraryontipsadmin;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,9 +27,9 @@ public class log_in extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
     private FirebaseAuth auth;
-    private ProgressBar progressBar;
-    private Button  btnLogin, btnReset;
-    TextInputLayout input_email, input_password;
+    private ProgressDialog progressDialog;
+    private Button btnLogin;
+    private ScrollView parentlayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +46,8 @@ public class log_in extends AppCompatActivity {
 
         inputEmail = (EditText) findViewById(R.id.emaillogin);
         inputPassword = (EditText) findViewById(R.id.passwordlogin);
-        progressBar = (ProgressBar) findViewById(R.id.progressBarlogin);
         btnLogin = (Button) findViewById(R.id.btn_loginlogin);
-        btnReset = (Button) findViewById(R.id.btn_reset_passwordlogin);
-        input_email = (TextInputLayout) findViewById(R.id.input_emaillogin);
-        input_password = (TextInputLayout) findViewById(R.id.input_passwordlogin);
+        parentlayout = (ScrollView) findViewById(R.id.scrollView);
 
         auth = FirebaseAuth.getInstance();
 
@@ -55,40 +57,36 @@ public class log_in extends AppCompatActivity {
                 String email = inputEmail.getText().toString();
                 String password = inputPassword.getText().toString();
 
-                if (TextUtils.isEmpty(email)) {
-                    input_email.setError("Enter Email");
-                    if (input_email.requestFocus()) {
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                    }
-                }
+                if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
+                    inputEmail.setText("");
+                    inputPassword.setText("");
+                    Snackbar snackbar = Snackbar
+                            .make(parentlayout, "Either Email or Password is wrong", Snackbar.LENGTH_LONG);
 
-                if (TextUtils.isEmpty(password)) {
-                    input_password.setError("Enter Password");
-                    if (input_password.requestFocus()) {
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                    snackbar.show();
+                } else {
 
-                    }
-                }
+                    progressDialog = new ProgressDialog(log_in.this, R.style.MyAlertDialogStyle);
+                    progressDialog.setMax(100);
+                    progressDialog.setMessage("Logging In...");
+                    progressDialog.show();
 
-                progressBar.setVisibility(View.VISIBLE);
+                    auth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(log_in.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
 
-                auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(log_in.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                    progressDialog.dismiss();
+                                    if (!task.isSuccessful()) {
+                                        Toast.makeText(log_in.this, "Authentication Failed", Toast.LENGTH_LONG).show();
 
-                                progressBar.setVisibility(View.GONE);
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(log_in.this, "Authentication Failed", Toast.LENGTH_LONG).show();
-
-                                }
-                                else
-                                {
+                                    } else {
                                         startActivity(new Intent(log_in.this, admin_page.class));
+                                    }
                                 }
-                            }
-                        });
+                            });
 
+                }
             }
         });
 

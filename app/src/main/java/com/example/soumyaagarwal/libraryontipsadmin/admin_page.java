@@ -1,35 +1,29 @@
 package com.example.soumyaagarwal.libraryontipsadmin;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
-import com.example.soumyaagarwal.libraryontipsadmin.NavDrawer.drawer1;
-import com.example.soumyaagarwal.libraryontipsadmin.NavDrawer.snackbar;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+public class admin_page extends AppCompatActivity {
 
-public class admin_page extends snackbar {
-
-    Button addbook, registerstudent, viewbook, student, returnbook ;
+    LinearLayout addbook, registerstudent, viewbook, student, returnbook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FrameLayout frame = (FrameLayout)findViewById(R.id.frame);
-        getLayoutInflater().inflate(R.layout.activity_admin_page, frame);
+        setContentView(R.layout.activity_admin_page);
 
-        addbook = (Button)findViewById(R.id.addbook);
-        viewbook = (Button)findViewById(R.id.viewbook);
-        registerstudent = (Button)findViewById(R.id.registerstudent);
-        student = (Button)findViewById(R.id.student);
-        returnbook = (Button)findViewById(R.id.returnbook);
+        addbook = (LinearLayout) findViewById(R.id.addbook);
+        viewbook = (LinearLayout) findViewById(R.id.viewbook);
+        registerstudent = (LinearLayout) findViewById(R.id.registerstudent);
+        student = (LinearLayout) findViewById(R.id.student);
+        returnbook = (LinearLayout) findViewById(R.id.returnbook);
 
         addbook.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -3,6 +3,7 @@ package com.example.soumyaagarwal.libraryontipsadmin.LibraryMap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,10 +11,9 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.soumyaagarwal.libraryontipsadmin.NavDrawer.drawer1;
 import com.example.soumyaagarwal.libraryontipsadmin.R;
 
-public class MapL extends drawer1 {
+public class MapL extends AppCompatActivity {
 
     TextView one,two,three,four,five,six,seven,eight,nine,ten;
     Character a;
@@ -24,8 +24,7 @@ public class MapL extends drawer1 {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FrameLayout frame = (FrameLayout)findViewById(R.id.frame);
-        getLayoutInflater().inflate(R.layout.activity_map, frame);
+setContentView(R.layout.activity_map);
         shelfno = getIntent().getExtras().getString("ShelfNo");
 
         one = (TextView) findViewById(R.id.textView1);

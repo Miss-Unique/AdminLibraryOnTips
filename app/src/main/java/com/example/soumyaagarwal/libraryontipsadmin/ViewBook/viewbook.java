@@ -26,8 +26,8 @@ public class viewbook extends AppCompatActivity {
         /*tab.addTab(tab.newTab().setText("IT"));
         tab.addTab(tab.newTab().setText("CS"));
         tab.addTab(tab.newTab().setText("MECHANICAL"));
-        tab.setTabGravity(TabLayout.GRAVITY_FILL);
-*/
+        tab.setTabGravity(TabLayout.GRAVITY_FILL);*/
+
         vpager = (ViewPager) findViewById(R.id.pager);
 
         pager adapter = new pager(getSupportFragmentManager());

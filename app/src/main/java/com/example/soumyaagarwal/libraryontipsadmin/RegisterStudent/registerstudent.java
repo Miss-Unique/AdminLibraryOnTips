@@ -1,6 +1,9 @@
 package com.example.soumyaagarwal.libraryontipsadmin.RegisterStudent;
 
 import android.content.Intent;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,26 +25,24 @@ import com.google.firebase.database.ValueEventListener;
 
 public class registerstudent extends AppCompatActivity {
 
-    Button studentsignup;
+    FloatingActionButton studentsignup;
     EditText rollno,password,name;
-    TextInputLayout input_rollno,input_password,input_name;
     DatabaseReference mDatabase,db;
     int l=0,p=0,i=0;
+    CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registerstudent);
 
-        input_rollno= (TextInputLayout)findViewById(R.id.input_rollno);
-        input_password= (TextInputLayout)findViewById(R.id.input_stupassword);
-        input_name= (TextInputLayout)findViewById(R.id.input_name);
         rollno = (EditText)findViewById(R.id.rollno);
         password = (EditText)findViewById(R.id.stupassword);
         name = (EditText)findViewById(R.id.name);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.parent_register_student);
 
-        studentsignup = (Button)findViewById(R.id.studentsignup);
+        studentsignup = (FloatingActionButton) findViewById(R.id.studentsignup);
         studentsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,44 +60,12 @@ public class registerstudent extends AppCompatActivity {
         p = 0;
         i=0;
 
-        if (TextUtils.isEmpty(stuname) || TextUtils.isEmpty(sturollno)||TextUtils.isEmpty(stupassword)) {
-            if (stuname.isEmpty()) {
-                input_name.setError("Field cannot be empty");
-                if(name.requestFocus())
-                {
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                }
-             }   else
-            {
-                input_name.setErrorEnabled(false);
-            }
+        if (TextUtils.isEmpty(stuname) || TextUtils.isEmpty(sturollno)||TextUtils.isEmpty(stupassword))
+        {
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "Fill in all the details", Snackbar.LENGTH_LONG);
 
-
-            if (sturollno.isEmpty()) {
-                input_rollno.setError("Enter a valid Roll Number");
-                if(rollno.requestFocus())
-                {
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                }
-            }else
-            {
-                input_rollno.setErrorEnabled(false);
-            }
-
-
-            if (stupassword.isEmpty()) {
-                input_password.setError("Field cannot be empty");
-                if(password.requestFocus())
-                {
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                }
-            }   else
-            {
-                input_password.setErrorEnabled(false);
-            }
-
-            Toast.makeText(registerstudent.this, "Field cannot be Left Empty", Toast.LENGTH_SHORT).show();
-        }
+            snackbar.show();        }
 
         else if(l==0)
         {
@@ -105,8 +74,6 @@ public class registerstudent extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     i = (int) dataSnapshot.getChildrenCount();
-                    //Toast.makeText(registerstudent.this, i+"", Toast.LENGTH_SHORT).show();
-
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
@@ -138,18 +105,13 @@ public class registerstudent extends AppCompatActivity {
                     }
                     if (p==i&&l!=1)
                     {
-                        input_rollno.setError("Enter a valid Roll Number");
-                        if(rollno.requestFocus())
-                        {
-                            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                        }
+                        Snackbar snackbar = Snackbar
+                                .make(coordinatorLayout, "Enter a valid roll number", Snackbar.LENGTH_LONG);
+
+                        snackbar.show();
                         rollno.setText("");
                         password.setText("");
                         name.setText("");
-                    }
-                    else
-                    {
-                        input_rollno.setErrorEnabled(false);
                     }
                 }
 

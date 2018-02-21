@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +17,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.soumyaagarwal.libraryontipsadmin.LibraryMap.MapL;
 import com.example.soumyaagarwal.libraryontipsadmin.ModelClass.Book;
 import com.example.soumyaagarwal.libraryontipsadmin.R;
@@ -34,52 +37,34 @@ import java.util.Map;
 public class BD extends AppCompatActivity {
 
     private Book book;
-    RatingBar totalRating;
-    TextView book_name, author, copies, sub, branch, shelf;
+    TextView totalRating;
+    TextView book_name, author, copies, sub, branch;
     String isbn, download_url, ShelfNo;
     StorageReference image_storage;
     ImageView image;
     DatabaseReference db;
-    ImageButton locateShelf;
+    FloatingActionButton locateShelf, pdfread;
     ValueEventListener dbEventListener;
-    LinearLayout myRatingLayout;
-    Toolbar toolbar;
-    CollapsingToolbarLayout collapsingToolbarLayout;
-//    Typeface one, two ,three, four;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookdetail);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapse);
-        collapsingToolbarLayout.setTitle("Book Details");
-        collapsingToolbarLayout.setBackgroundColor(Color.BLACK);
-        collapsingToolbarLayout.setExpandedTitleColor(Color.TRANSPARENT);
 
         isbn = getIntent().getStringExtra("ISBN_No");
 
         book_name = (TextView) findViewById(R.id.title);
-        //      book_name.setTypeface(two);
         branch = (TextView) findViewById(R.id.branch);
-        shelf = (TextView) findViewById(R.id.shelf);
         author = (TextView) findViewById(R.id.author);
         sub = (TextView) findViewById(R.id.subject);
         image = (ImageView) findViewById(R.id.detailimage);
         copies = (TextView) findViewById(R.id.copies_avail);
-        totalRating = (RatingBar) findViewById(R.id.totalRating);
+        totalRating = (TextView) findViewById(R.id.totalRating);
+        pdfread = (FloatingActionButton) findViewById(R.id.pdfread);
         db = FirebaseDatabase.getInstance().getReference().child("Book").child(isbn).getRef();
 
-        myRatingLayout = (LinearLayout) findViewById(R.id.l0);
-        myRatingLayout.setVisibility(View.GONE);
-
-        locateShelf = (ImageButton) findViewById(R.id.detail_shelf);
+        locateShelf = (FloatingActionButton) findViewById(R.id.detail_shelf);
         image_storage = FirebaseStorage.getInstance().getReference().child("image");
-
 
         dbEventListener = db.addValueEventListener(new ValueEventListener() {
             @Override
@@ -87,7 +72,6 @@ public class BD extends AppCompatActivity {
                 Map<String, Object> mapBook = (Map<String, Object>) dataSnapshot.getValue();
 
                 book = new Book();
-
                 book.setAuthor((String) mapBook.get("Author"));
                 book.setBranch((String) mapBook.get("Branch"));
                 book.setCopiesNo((String) mapBook.get("CopiesNo"));
@@ -99,14 +83,13 @@ public class BD extends AppCompatActivity {
                 book.setShelfNo((String) mapBook.get("ShelfNo"));
                 book.setSubject((String) mapBook.get("Subject"));
                 book.setAvailableCopies((String) mapBook.get("AvailableCopies"));
-                totalRating.setRating(Float.parseFloat(book.getRatings()));
+                totalRating.setText(book.getRatings() + "/5");
                 copies.setText(book.getAvailableCopies());
                 book_name.setText(book.getTitle());
                 author.setText(" -" + book.getAuthor());
                 sub.setText(book.getSubject());
                 ShelfNo = book.getShelfNo();
                 branch.setText(book.getBranch());
-                shelf.setText(book.getShelfNo());
 
                 locateShelf.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -114,6 +97,13 @@ public class BD extends AppCompatActivity {
                         Intent intent = new Intent(BD.this, MapL.class);
                         intent.putExtra("ShelfNo", ShelfNo);
                         startActivity(intent);
+                    }
+                });
+
+                pdfread.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //TODO: DOwnload PDF
                     }
                 });
 
@@ -128,6 +118,13 @@ public class BD extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), "Can not load image", Toast.LENGTH_SHORT).show();
                     }
                 });
+                Glide.with(BD.this).load(download_url)
+                        .thumbnail(0.5f)
+                        .crossFade()
+                        .placeholder(R.drawable.ic_name)
+                        .transform(new CircleTransform(BD.this))
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(image);
                 //TODO: Picasso.with(getBaseContext()).load(download_url).placeholder(R.drawable.placeholder).into(image);
 
             }

@@ -1,74 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_studentverify"
+    android:id="@+id/parent_verify_student"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.soumyaagarwal.libraryontipsadmin.Student.studentverify"
-    android:orientation="vertical"
-    android:background="@color/dark">
+    android:background="@drawable/lib_back_blur"
+    android:gravity="center"
+    android:padding="15dp">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/light"
-        android:textSize="50dp"
-        android:text="Student"
-        android:fontFamily="cursive"
-        android:padding="4dp"
-        android:id="@+id/head"
-        android:textAlignment="center"/>
+        android:layout_height="match_parent"
+        android:gravity="center">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="@color/light"
-        android:padding="10dp"
-        android:layout_margin="5dp">
-
-        <TextView
+        <RelativeLayout
+            android:id="@+id/card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/dark"
-            android:textSize="30dp"
-            android:fontFamily="cursive"
-            android:padding="4dp"
-            android:id="@+id/verifiedrollno"
-            android:textAlignment="center"/>
-        <LinearLayout
-            android:id="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/dark"
-            android:orientation="horizontal"
-            android:layout_marginBottom="7dp"></LinearLayout>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Issue Book"
-            android:id="@+id/bookissue"
-            android:layout_margin="5dp"
-            android:padding="7dp"
-            android:background="@color/dark"
-            android:textColor="@color/light"/>
+            android:layout_margin="20dp"
+            android:gravity="bottom|right|end">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Reissue Book"
-            android:id="@+id/bookreissue"
-            android:layout_margin="5dp"
-            android:padding="7dp"
-            android:background="@color/dark"
-            android:textColor="@color/light"/>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="15dp">
 
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="15dp">
 
-</LinearLayout>
+                    <TextView
+                        android:id="@+id/head"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="35dp"
+                        android:layout_marginTop="25dp"
+                        android:fontFamily="cursive"
+                        android:text="Student"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="40dp" />
+
+                    <EditText
+                        android:id="@+id/verifiedrollno"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/scan"
+                        android:background="@drawable/edittext_verifystudent"
+                        android:hint="Roll No."
+                        android:inputType="textPersonName"
+                        android:padding="16dp"
+                        android:textColor="@color/grey"
+                        android:textColorHint="@color/grey"
+                        android:layout_marginBottom="20dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/bookissue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/continue_button"
+                            android:padding="16dp"
+                            android:layout_marginRight="3dp"
+                            android:text="ISSUE BOOK"
+                            android:textColor="@color/white"
+                            android:layout_weight="1"/>
+                        <Button
+                            android:id="@+id/bookreissue"
+                            android:layout_marginLeft="3dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/continue_button"
+                            android:padding="16dp"
+                            android:text="RE-ISSUE BOOK"
+                            android:textColor="@color/white"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

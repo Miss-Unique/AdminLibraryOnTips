@@ -44,6 +44,9 @@ public class tab1 extends Fragment {
         this.branch = b;
     }
 
+    public tab1() {
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -247,7 +250,7 @@ public class tab1 extends Fragment {
 
     private void addingrows(final List<viewbd> k)
     {
-        mAdapter = new ViewBookAdapter(k);
+        mAdapter = new ViewBookAdapter(k,getActivity());
         recyclerView.setAdapter(mAdapter);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
