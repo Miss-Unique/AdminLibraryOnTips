@@ -27,7 +27,7 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
-    <style name="login" parent="@style/AppTheme.NoActionBar">
+    <style name="transparentStatusBar" parent="@style/AppTheme.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:scrollbars="vertical"
-    android:id="@+id/parent">
+    android:scrollbars="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,30 +25,31 @@
                 android:gravity="center">
 
                 <LinearLayout
+                    android:id="@+id/head"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:id="@+id/head"
                     android:padding="4dp">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="cursive"
-                        android:layout_weight="0.7"
-                        android:text="Add Copies:  "
-                        android:textAlignment="center"
-                        android:textColor="@color/light"
-                        android:textSize="50dp" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
+                        android:layout_weight="0.7"
+                        android:fontFamily="cursive"
+                        android:text="Add Copies:  "
+                        android:textColor="@color/light"
+                        android:textSize="40dp" />
+
+                    <TextView
                         android:id="@+id/ISBN"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="0.3"
-                        android:textSize="40dp"
-                        android:ems="10" />
+                        android:ems="10"
+                        android:textColor="@color/white"
+                        android:textSize="40dp" />
                 </LinearLayout>
+
                 <RelativeLayout
                     android:id="@+id/card"
                     android:layout_width="match_parent"
@@ -80,33 +80,18 @@
                                 android:orientation="vertical"
                                 android:padding="5dp">
 
-                                <LinearLayout
+                                <EditText
+                                    android:id="@+id/barcode"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
+                                    android:backgroundTint="@color/colorPrimaryDark"
+                                    android:hint="Barcode"
+                                    android:inputType="textPersonName"
+                                    android:padding="15dp"
+                                    android:textColor="@color/colorPrimaryDark"
+                                    android:textColorHint="@color/hint_color"
+                                    android:textCursorDrawable="@null" />
 
-                                    <EditText
-                                        android:id="@+id/barcode"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="0.7"
-                                        android:backgroundTint="@color/colorPrimaryDark"
-                                        android:hint="Barcode"
-                                        android:inputType="textPersonName"
-                                        android:padding="15dp"
-                                        android:textColor="@color/colorPrimaryDark"
-                                        android:textColorHint="@color/colorPrimaryDark" />
-                                    <Button
-                                        android:id="@+id/scanbarcode"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:background="@drawable/continue_button"
-                                        android:padding="16dp"
-                                        android:layout_marginRight="3dp"
-                                        android:text="SCAN"
-                                        android:textColor="@color/white"
-                                        android:layout_weight="0.3"/>
-                                </LinearLayout>
                                 <EditText
                                     android:id="@+id/price"
                                     android:layout_width="match_parent"
@@ -117,7 +102,8 @@
                                     android:inputType="text"
                                     android:padding="15dp"
                                     android:textColor="@color/colorPrimaryDark"
-                                    android:textColorHint="@color/colorPrimaryDark" />
+                                    android:textColorHint="@color/hint_color"
+                                    android:textCursorDrawable="@null" />
 
                                 <EditText
                                     android:id="@+id/dop"
@@ -128,7 +114,8 @@
                                     android:inputType="textPassword"
                                     android:padding="15dp"
                                     android:textColor="@color/colorPrimaryDark"
-                                    android:textColorHint="@color/colorPrimaryDark" />
+                                    android:textColorHint="@color/hint_color"
+                                    android:textCursorDrawable="@null" />
                             </LinearLayout>
 
 
@@ -141,11 +128,21 @@
                 android:id="@+id/add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimary"
                 android:src="@mipmap/ic_continue"
+                app:backgroundTint="@color/colorPrimary"
                 app:fabSize="normal"
                 app:layout_anchor="@id/card"
                 app:layout_anchorGravity="bottom|right|end" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/scanbarcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/qr_fab"
+                app:backgroundTint="@color/colorPrimary"
+                app:fabSize="normal"
+                app:layout_anchor="@id/card"
+                app:layout_anchorGravity="bottom|left|end" />
         </android.support.design.widget.CoordinatorLayout>
 
         <LinearLayout
@@ -153,7 +150,7 @@
             android:layout_height="2dp"
             android:layout_marginBottom="4dp"
             android:background="@color/white"
-            android:orientation="horizontal"></LinearLayout>
+            android:orientation="horizontal" />
 
 
         <LinearLayout
@@ -168,10 +165,12 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="cursive"
                 android:padding="4dp"
+                android:id="@+id/tv_list_of_copies"
                 android:text="List of Copies"
                 android:textAlignment="center"
                 android:textColor="@color/light"
-                android:textSize="40dp" />
+                android:textSize="40dp"
+                android:visibility="gone"/>
 
 
             <android.support.v7.widget.RecyclerView

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.soumyaagarwal.libraryontipsadmin.LibraryMap.MapL;
 import com.example.soumyaagarwal.libraryontipsadmin.ModelClass.Book;
 import com.example.soumyaagarwal.libraryontipsadmin.R;
@@ -83,6 +84,7 @@ public class BD extends AppCompatActivity {
                 book.setShelfNo((String) mapBook.get("ShelfNo"));
                 book.setSubject((String) mapBook.get("Subject"));
                 book.setAvailableCopies((String) mapBook.get("AvailableCopies"));
+                book.setPath((String) mapBook.get("Path"));
                 totalRating.setText(book.getRatings() + "/5");
                 copies.setText(book.getAvailableCopies());
                 book_name.setText(book.getTitle());
@@ -100,12 +102,12 @@ public class BD extends AppCompatActivity {
                     }
                 });
 
-                pdfread.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //TODO: DOwnload PDF
-                    }
-                });
+               pdfread.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       //TODO: DOwnload PDF
+                   }
+               });
 
                 image_storage.child(isbn).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
@@ -120,10 +122,7 @@ public class BD extends AppCompatActivity {
                 });
                 Glide.with(BD.this).load(download_url)
                         .thumbnail(0.5f)
-                        .crossFade()
-                        .placeholder(R.drawable.ic_name)
-                        .transform(new CircleTransform(BD.this))
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .apply(new RequestOptions().fitCenter().placeholder(R.drawable.ic_name).transform(new CircleTransform(BD.this)).diskCacheStrategy(DiskCacheStrategy.ALL))
                         .into(image);
                 //TODO: Picasso.with(getBaseContext()).load(download_url).placeholder(R.drawable.placeholder).into(image);
 
@@ -147,5 +146,10 @@ public class BD extends AppCompatActivity {
         Intent intent = new Intent(this, viewbook.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

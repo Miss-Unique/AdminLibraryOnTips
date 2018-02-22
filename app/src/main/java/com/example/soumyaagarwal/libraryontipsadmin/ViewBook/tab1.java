@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.soumyaagarwal.libraryontipsadmin.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -29,7 +31,6 @@ import java.util.List;
 import com.example.soumyaagarwal.libraryontipsadmin.AddBook.ClickListener;
 import com.example.soumyaagarwal.libraryontipsadmin.AddBook.RecyclerTouchListener;
 import com.example.soumyaagarwal.libraryontipsadmin.ModelClass.Book;
-
 public class tab1 extends Fragment {
 
     private List<viewbd> bookList = new ArrayList<>();
@@ -37,9 +38,10 @@ public class tab1 extends Fragment {
     public List<viewbd> filtered = new ArrayList<>();
     public RecyclerView recyclerView;
     private ViewBookAdapter mAdapter;
-    private EditText search_book,search_book_subject;
-    DatabaseReference mDatabase,db;
+    DatabaseReference mDatabase, db;
     String branch;
+    CoordinatorLayout layout;
+
     public tab1(String b) {
         this.branch = b;
     }
@@ -54,35 +56,20 @@ public class tab1 extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_tab1, container, false);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        search_book=(EditText)rootView.findViewById(R.id.search_book);
-        search_book_subject = (EditText) rootView.findViewById(R.id.search_book_subject);
         recyclerView.setHasFixedSize(true);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+
+
         addingrows(bookList);
-        b=bookList;
+        b = bookList;
         new ChildAddAsync().execute();
-        /*
-        mDatabase.child("Book").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });*/
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 viewbd book = b.get(position);
-                Toast.makeText(getActivity(), book.getBook_name() + " is selected!", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(getActivity(),BD.class);
-                i.putExtra("ISBN_No",book.getBook_ISBN());
+                Intent i = new Intent(getActivity(), BD.class);
+                i.putExtra("ISBN_No", book.getBook_ISBN());
                 startActivity(i);
             }
 
@@ -92,81 +79,33 @@ public class tab1 extends Fragment {
             }
         }));
 
+
         //search functionality
-        search_book.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
-                if(search_book.getText().equals(""))
-                {
-                    addingrows(b);
-                }
-                else
-                {
-                    filtered.clear();
-                    addingrows(filtered);
-                    s = s.toString().toLowerCase();
-                    bookList.size();
-
-                    for (int i = 0; i < bookList.size(); i++)
-                    {
-                        String item = bookList.get(i).getBook_name().toLowerCase();
-
-                        if (item.contains(s))
-                        {
-                            filtered.add(bookList.get(i));
-                        }
-                    }
-                    b = filtered;
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-
-        search_book_subject.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if(search_book_subject.getText().equals(""))
-                {
-                    addingrows(b);
-                }
-                else
-                {
-                    filtered.clear();
-                    addingrows(filtered);
-
-                    s = s.toString().toLowerCase();
-                    for (int i = 0; i < bookList.size(); i++) {
-                        String item = bookList.get(i).getBook_author().toLowerCase();
-
-                        if (item.contains(s)) {
-                            filtered.add(bookList.get(i));
-                        }
-                    }
-
-                    b = filtered;
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                mAdapter.notifyDataSetChanged();
-            }
-        });
         return rootView;
+    }
+
+    public void onTextChanged(CharSequence s, int start, int before, int count){
+        if (s.equals("")) {
+            addingrows(b);
+        } else {
+            filtered.clear();
+            addingrows(filtered);
+
+            s = s.toString().toLowerCase();
+
+            for (int i = 0; i < bookList.size(); i++) {
+                if (bookList.get(i).getBook_name().toLowerCase().contains(s)
+                        || bookList.get(i).getBook_author().toLowerCase().contains(s)) {
+                    filtered.add(bookList.get(i));
+                }
+            }
+        }
+        b = filtered;
+    }
+
+    public void afterTextChanged(Editable s) {
+        mAdapter.notifyDataSetChanged();
     }
 
     class ChildAddAsync extends AsyncTask<String, String, String> {
@@ -193,9 +132,7 @@ public class tab1 extends Fragment {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         Book book = dataSnapshot.getValue(Book.class);
-//                        Toast.makeText(getActivity(), dataSnapshot.getKey(), Toast.LENGTH_SHORT).show();
-                        if( book.getBranch().equals(branch))
-                        {
+                        if (book.getBranch().equals(branch) || branch.equals("All")) {
                             viewbd bk = new viewbd();
                             bk.setBook_name(book.getTitle());
                             bk.setBook_author(book.getAuthor());
@@ -206,9 +143,7 @@ public class tab1 extends Fragment {
                             bookList.add(bk);
                             mAdapter.notifyDataSetChanged();
                             pd.dismiss();
-                        }
-                        else
-                        {
+                        } else {
                             pd.dismiss();
                         }
                     }
@@ -232,14 +167,14 @@ public class tab1 extends Fragment {
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
+
                 });
-            }
-            catch (Exception e)
-            {
+
+            } catch (Exception e) {
                 e.printStackTrace();
-                Log.d("Failure", "FAILURE,FAILURE 111111");
             }
             return null;
+
         }
 
         @Override
@@ -248,11 +183,13 @@ public class tab1 extends Fragment {
         }
     }
 
-    private void addingrows(final List<viewbd> k)
-    {
+    private void addingrows(final List<viewbd> k) {
         mAdapter = new ViewBookAdapter(k,getActivity());
         recyclerView.setAdapter(mAdapter);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
     }
+
+
+
 }

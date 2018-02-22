@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:background="#deab6634"
+        android:background="@drawable/library_bg"
         android:gravity="center"
         android:padding="20dp">
 
@@ -50,7 +50,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:background="#de2d1300"
+            android:clickable="true"
+            android:background="@drawable/add_book_bg"
             android:padding="20dp"
             android:gravity="center">
 
@@ -79,7 +80,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:background="#e3985321"
+            android:background="@drawable/register_student_bg"
             android:padding="20dp"
             android:gravity="center">
 
@@ -116,7 +117,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:background="#deC37E4C"
+            android:background="@drawable/student_bg"
             android:padding="20dp"
             android:gravity="center">
 
@@ -144,7 +145,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:background="#de783201"
+            android:background="@drawable/return_book_bg"
             android:padding="20dp"
             android:gravity="center">
 
