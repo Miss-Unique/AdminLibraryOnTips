@@ -26,9 +26,9 @@ import com.google.firebase.database.ValueEventListener;
 public class registerstudent extends AppCompatActivity {
 
     FloatingActionButton studentsignup;
-    EditText rollno,password,name;
-    DatabaseReference mDatabase,db;
-    int l=0,p=0,i=0;
+    EditText rollno, password, name;
+    DatabaseReference mDatabase, db;
+    int l = 0, p = 0, i = 0;
     CoordinatorLayout coordinatorLayout;
 
     @Override
@@ -36,9 +36,9 @@ public class registerstudent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registerstudent);
 
-        rollno = (EditText)findViewById(R.id.rollno);
-        password = (EditText)findViewById(R.id.stupassword);
-        name = (EditText)findViewById(R.id.name);
+        rollno = (EditText) findViewById(R.id.rollno);
+        password = (EditText) findViewById(R.id.stupassword);
+        name = (EditText) findViewById(R.id.name);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.parent_register_student);
 
@@ -56,25 +56,23 @@ public class registerstudent extends AppCompatActivity {
         final String stuname = name.getText().toString().trim();
         final String sturollno = rollno.getText().toString().trim();
         final String stupassword = password.getText().toString().trim();
-        l=0;
+        l = 0;
         p = 0;
-        i=0;
+        i = 0;
 
-        if (TextUtils.isEmpty(stuname) || TextUtils.isEmpty(sturollno)||TextUtils.isEmpty(stupassword))
-        {
+        if (TextUtils.isEmpty(stuname) || TextUtils.isEmpty(sturollno) || TextUtils.isEmpty(stupassword)) {
             Snackbar snackbar = Snackbar
                     .make(coordinatorLayout, "Fill in all the details", Snackbar.LENGTH_LONG);
 
-            snackbar.show();        }
-
-        else if(l==0)
-        {
+            snackbar.show();
+        } else if (l == 0) {
             db = mDatabase.child("RollNo").getRef();
             db.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     i = (int) dataSnapshot.getChildrenCount();
                 }
+
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
@@ -82,29 +80,26 @@ public class registerstudent extends AppCompatActivity {
             });
             db.addChildEventListener(new ChildEventListener() {
                 @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s)
-                {
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     String rn = dataSnapshot.getValue(String.class);
                     String k = dataSnapshot.getKey();
                     String j = rn;
-                    p +=1;
-                    if (k.equals(sturollno)&&j.equals("no"))
-                    {
+                    p += 1;
+                    if (k.equals(sturollno) && j.equals("no")) {
                         DatabaseReference dbr = mDatabase.child("Student").child(sturollno);
 
                         dbr.child("Name").setValue(stuname);
                         dbr.child("Password").setValue(stupassword);
                         dbr.child("TotalFine").setValue("0");
 
-                        Toast.makeText(registerstudent.this,"Student Registered Succesfully",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(registerstudent.this, "Student Registered Succesfully", Toast.LENGTH_SHORT).show();
                         DatabaseReference db = mDatabase.child("RollNo").child(sturollno);
                         db.setValue("yes");
-                        l=1;
-                        startActivity(new Intent(registerstudent.this,admin_page.class));
+                        l = 1;
+                        startActivity(new Intent(registerstudent.this, admin_page.class));
                         finish();
                     }
-                    if (p==i&&l!=1)
-                    {
+                    if (p == i && l != 1) {
                         Snackbar snackbar = Snackbar
                                 .make(coordinatorLayout, "Enter a valid roll number", Snackbar.LENGTH_LONG);
 
@@ -142,8 +137,8 @@ public class registerstudent extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-              startActivity(new Intent(registerstudent.this,admin_page.class));
-                finish();;
+        startActivity(new Intent(registerstudent.this, admin_page.class));
+        finish();
+        ;
     }
 }
-

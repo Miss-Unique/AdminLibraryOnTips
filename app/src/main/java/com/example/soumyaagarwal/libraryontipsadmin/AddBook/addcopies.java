@@ -13,6 +13,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,17 +49,16 @@ public class addcopies extends AppCompatActivity
 {
     DatabaseReference mDatabase,dbr,db,db2,db3;
     Button add;
-    ImageButton scanbarcode;
+    FloatingActionButton scanbarcode;
     EditText barcode,price,dop;
     TextView ISBN;
-    TextInputLayout input_barcode, input_price, input_dop;
     String copyISBN, copybarcode, copyprice,copydop;
     private List<CopyBook> bookList;
     public RecyclerView recyclerView;
     private BookAdapter mAdapter;
     LinearLayoutManager mLayoutManager;
-    LinearLayout aac;
     ChildEventListener childEventListener,childEventListener2;
+    ScrollView parent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,20 +66,16 @@ public class addcopies extends AppCompatActivity
         setContentView(R.layout.activity_addcopies);
 
         add = (Button) findViewById(R.id.add);
-        scanbarcode = (ImageButton) findViewById(R.id.scanbarcode);
+        scanbarcode = (FloatingActionButton) findViewById(R.id.scanbarcode);
         ISBN = (TextView) findViewById(R.id.ISBN);
         ISBN.setText(getIntent().getExtras().getString("ISBN_No"));
         barcode = (EditText) findViewById(R.id.barcode);
         price = (EditText) findViewById(R.id.price);
         dop = (EditText) findViewById(R.id.dop);
-        input_barcode = (TextInputLayout) findViewById(R.id.input_barcode);
-        input_price = (TextInputLayout) findViewById(R.id.input_price);
-        input_dop = (TextInputLayout) findViewById(R.id.input_dop);
         recyclerView = (RecyclerView) findViewById(R.id.copybook_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        aac = (LinearLayout)findViewById(R.id.aac);
-
+        parent = (ScrollView) findViewById(R.id.parent);
 
         scanbarcode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,35 +97,10 @@ public class addcopies extends AppCompatActivity
 
                 if (TextUtils.isEmpty(copybarcode) || (TextUtils.isEmpty(copydop)) || TextUtils.isEmpty(copyprice))
                 {
-                    if (TextUtils.isEmpty(copybarcode)) {
-                        input_barcode.setError("Enter Post");
-                        if (input_barcode.requestFocus()) {
-                            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                        }
-                    } else {
-                        input_barcode.setErrorEnabled(false);
-                    }
+                    Snackbar snackbar = Snackbar
+                            .make(parent, "Fill in all the details", Snackbar.LENGTH_LONG);
 
-                    if (TextUtils.isEmpty(copyprice)) {
-                        input_price.setError("Enter Post");
-                        if (input_price.requestFocus()) {
-                            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                        }
-                    } else {
-                        input_price.setErrorEnabled(false);
-                    }
-
-                    if (TextUtils.isEmpty(copydop)) {
-                        input_dop.setError("Enter Department");
-                        if (input_dop.requestFocus()) {
-                            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                        }
-                    }
-                    else {
-                        input_dop.setErrorEnabled(false);
-                    }
-
-                    Toast.makeText(getApplicationContext(),"Fill in details correctly",Toast.LENGTH_SHORT).show();
+                    snackbar.show();
                 }
 
                 else
@@ -298,7 +270,7 @@ public class addcopies extends AppCompatActivity
             message = "Sorry! Not connected to internet";
             color = Color.RED;
             Snackbar snackbar = Snackbar
-                    .make(aac, message, Snackbar.LENGTH_LONG);
+                    .make(parent, message, Snackbar.LENGTH_LONG);
 
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);

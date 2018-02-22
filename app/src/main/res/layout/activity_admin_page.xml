@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="18dp"
-                android:text="LIBRARY"
+                android:text="ADD BOOK"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 android:layout_margin="20dp"
@@ -87,14 +87,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/library" />
+                android:src="@drawable/registerstudent" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="18dp"
-                android:text="LIBRARY"
+                android:text="REGISTER STUDENT"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 android:layout_margin="20dp"
@@ -124,14 +124,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/library" />
+                android:src="@drawable/student" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="18dp"
-                android:text="LIBRARY"
+                android:text="STUDENT"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 android:layout_margin="20dp"
@@ -152,14 +152,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/library" />
+                android:src="@drawable/returnbook" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="18dp"
-                android:text="LIBRARY"
+                android:text="RETURN BOOK"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 android:layout_margin="20dp"

@@ -68,7 +68,7 @@
             android:layout_below="@+id/author"
             android:layout_marginBottom="7dp"
             android:layout_marginTop="7dp"
-            android:background="@color/dark" />
+            android:background="@color/colorPrimary" />
 
         <android.support.v7.widget.RecyclerView
             android:layout_marginTop="8dp"

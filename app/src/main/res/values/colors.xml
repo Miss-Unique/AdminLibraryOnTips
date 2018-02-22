@@ -4,7 +4,6 @@
     <color name="colorPrimaryDark">#A55723</color>
     <color name="colorAccent">#ffffff</color>
     <!--color name="dark">#205944</color-->
-    <color name="dark">#f4511e</color>
     <color name="light">#ffffff</color>
     <!--color name="light">#5ebd8f</color-->
     <color name="black">#000000</color>
@@ -22,4 +21,12 @@
 
     <color name="primary_dark_material_light_1">#e78787</color>
     <color name="primary_dark_material_light_2">#474646</color>
+
+
+    <array name="dotactive">
+        <item>@color/white</item>
+        <item>@color/white</item>
+        <item>@color/white</item>
+        <item>@color/white</item>
+    </array>
 </resources>

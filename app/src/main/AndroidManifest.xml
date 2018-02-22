@@ -7,8 +7,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApplication"
@@ -16,17 +16,13 @@
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Splash">
-
-        </activity>
+        <activity android:name=".Splash"></activity>
         <activity android:name=".admin_page" />
-        <activity android:name=".log_in"
+        <activity
+            android:name=".log_in"
             android:theme="@style/login"
             android:windowSoftInputMode="stateVisible|adjustResize|adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity android:name=".sign_up" />
         <activity
@@ -42,9 +38,9 @@
         <activity android:name=".Student.studentverify" />
         <activity android:name=".Student.student" />
         <activity android:name=".Student.BookReissue" />
-        <activity android:name=".ViewBook.BD"
-            android:theme="@style/login">
-            </activity>
+        <activity
+            android:name=".ViewBook.BD"
+            android:theme="@style/login"></activity>
         <activity android:name=".BookReturn" />
 
         <receiver
@@ -55,6 +51,13 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name=".Slider.FirstSlider">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
