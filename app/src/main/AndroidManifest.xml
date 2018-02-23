@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.soumyaagarwal.libraryontipsadmin">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,16 +15,18 @@
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:label="admin"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Splash"></activity>
-        <activity android:name=".admin_page" />
+        android:theme="@style/AppTheme.NoActionBar"
+        tools:replace="label">
+        <activity android:name=".Splash" />
+        <activity
+            android:name=".admin_page"
+            android:theme="@style/transparentStatusBar" />
         <activity
             android:name=".log_in"
-            android:theme="@style/login"
-            android:windowSoftInputMode="stateVisible|adjustResize|adjustResize">
-
-        </activity>
+            android:theme="@style/transparentStatusBar"
+            android:windowSoftInputMode="stateVisible|adjustResize|adjustResize" />
         <activity android:name=".sign_up" />
         <activity
             android:name=".AddBook.addbook"
@@ -40,7 +43,7 @@
         <activity android:name=".Student.BookReissue" />
         <activity
             android:name=".ViewBook.BD"
-            android:theme="@style/login"></activity>
+            android:theme="@style/transparentStatusBar" />
         <activity android:name=".BookReturn" />
 
         <receiver
@@ -58,6 +61,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Student.QRCodeScanner" />
+
+        <service
+            android:name=".Services.UploadBookData"
+            android:exported="false"></service>
     </application>
 
 </manifest>

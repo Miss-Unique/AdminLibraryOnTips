@@ -36,18 +36,18 @@ public class registerstudent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registerstudent);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         rollno = (EditText) findViewById(R.id.rollno);
         password = (EditText) findViewById(R.id.stupassword);
         name = (EditText) findViewById(R.id.name);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.parent_register_student);
-
         studentsignup = (FloatingActionButton) findViewById(R.id.studentsignup);
+
         studentsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startPost();
-
             }
         });
     }
@@ -139,6 +139,5 @@ public class registerstudent extends AppCompatActivity {
         super.onBackPressed();
         startActivity(new Intent(registerstudent.this, admin_page.class));
         finish();
-        ;
     }
 }

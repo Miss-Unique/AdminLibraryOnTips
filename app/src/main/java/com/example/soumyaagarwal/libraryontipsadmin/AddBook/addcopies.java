@@ -48,8 +48,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class addcopies extends AppCompatActivity {
     DatabaseReference mDatabase, dbr, db, db2, db3;
-    Button add;
-    FloatingActionButton scanbarcode;
+    FloatingActionButton add, scanbarcode;
     EditText barcode, price, dop;
     TextView ISBN;
     String copyISBN, copybarcode, copyprice, copydop;
@@ -59,13 +58,14 @@ public class addcopies extends AppCompatActivity {
     LinearLayoutManager mLayoutManager;
     ChildEventListener childEventListener, childEventListener2;
     ScrollView parent;
+    TextView tv_list_of_copies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addcopies);
 
-        add = (Button) findViewById(R.id.add);
+        add = (FloatingActionButton) findViewById(R.id.add);
         scanbarcode = (FloatingActionButton) findViewById(R.id.scanbarcode);
         ISBN = (TextView) findViewById(R.id.ISBN);
         ISBN.setText(getIntent().getExtras().getString("ISBN_No"));
@@ -76,6 +76,7 @@ public class addcopies extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mDatabase = FirebaseDatabase.getInstance().getReference();
         parent = (ScrollView) findViewById(R.id.parent);
+        tv_list_of_copies = (TextView) findViewById(R.id.tv_list_of_copies);
 
         scanbarcode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +99,7 @@ public class addcopies extends AppCompatActivity {
                 if (TextUtils.isEmpty(copybarcode) || (TextUtils.isEmpty(copydop)) || TextUtils.isEmpty(copyprice)) {
                     Snackbar snackbar = Snackbar
                             .make(parent, "Fill in all the details", Snackbar.LENGTH_LONG);
+
                     snackbar.show();
                 } else {
                     boolean isConnected = ConnectivityReceiver.isConnected();
@@ -148,6 +150,7 @@ public class addcopies extends AppCompatActivity {
                         if (book.getISBN_No().equals(copyISBN)) {
                             book.setBarCode(dataSnapshot.getKey());
                             bookList.add(book);
+                            tv_list_of_copies.setVisibility(View.VISIBLE);
                             mAdapter.notifyDataSetChanged();
                         }
                         pd.dismiss();
@@ -202,6 +205,7 @@ public class addcopies extends AppCompatActivity {
             dbr.child("IssuedStatus").setValue("null");
             dbr.child("DateIssued").setValue("null");
 
+
             bookList = new ArrayList<>();
             addingrows(bookList);
             new ChildAddAsync().execute();
@@ -247,10 +251,11 @@ public class addcopies extends AppCompatActivity {
                 }
             });
 
-            Toast.makeText(addcopies.this, "Copy Added", Toast.LENGTH_SHORT).show();
+            Toast.makeText(addcopies.this, "copy added", Toast.LENGTH_SHORT).show();
             dop.setText("");
             price.setText("");
             barcode.setText("");
+
         } else {
             message = "Sorry! Not connected to internet";
             color = Color.RED;
@@ -269,6 +274,7 @@ public class addcopies extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(addcopies.this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mAdapter);
+
     }
 
     @Override
@@ -276,11 +282,14 @@ public class addcopies extends AppCompatActivity {
         super.onResume();
     }
 
+
     @Override
     public void onBackPressed() {
         if (childEventListener2 != null)
             db2.removeEventListener(childEventListener2);
         startActivity(new Intent(addcopies.this, admin_page.class));
         finish();
+        //  db.removeEventListener(childEventListener);
+
     }
 }

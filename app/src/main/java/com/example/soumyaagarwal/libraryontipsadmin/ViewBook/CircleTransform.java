@@ -1,9 +1,5 @@
 package com.example.soumyaagarwal.libraryontipsadmin.ViewBook;
 
-/**
- * Created by RajK on 14-05-2017.
- */
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -12,6 +8,8 @@ import android.graphics.Paint;
 
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+
+import java.security.MessageDigest;
 
 public class CircleTransform extends BitmapTransformation {
     public CircleTransform(Context context) {
@@ -47,7 +45,7 @@ public class CircleTransform extends BitmapTransformation {
     }
 
     @Override
-    public String getId() {
-        return getClass().getName();
+    public void updateDiskCacheKey(MessageDigest messageDigest) {
+
     }
 }

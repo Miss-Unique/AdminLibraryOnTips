@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/lib_back_blur"
     android:fitsSystemWindows="true"
-    tools:ignore="MergeRootFrame"
     android:padding="6dp"
-    android:background="@drawable/lib_back_blur">
+    tools:ignore="MergeRootFrame">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -37,31 +36,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:elevation="5dp"
         android:orientation="vertical"
         android:padding="12dp"
         app:layout_anchor="@id/l1"
-        app:layout_anchorGravity="bottom"
-        android:elevation="5dp">
+        app:layout_anchorGravity="bottom">
 
         <LinearLayout
             android:id="@+id/r1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="140dp"
+            android:clipToPadding="false"
             android:orientation="horizontal"
-            android:padding="4dp"
-            android:clipToPadding="false">
+            android:padding="4dp">
 
             <android.support.v7.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_weight="0.6"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="8dp"
-                app:cardElevation="8dp"
-                android:layout_weight="0.6">
+                app:cardElevation="8dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -115,35 +114,36 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4">
-            <LinearLayout
-                android:id="@+id/l3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:background="#0000">
 
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/detail_shelf"
+                <LinearLayout
+                    android:id="@+id/l3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:layout_margin="@dimen/fab_margin"
-                    android:src="@drawable/shelf_fabbutton"
-                    app:elevation="5dp"
-                    app:fabSize="mini" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="#0000"
+                    android:orientation="horizontal">
 
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/pdfread"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:layout_margin="@dimen/fab_margin"
-                    android:src="@drawable/download_pdf"
-                    app:elevation="5dp"
-                    app:fabSize="mini" />
-            </LinearLayout>
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/detail_shelf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/fab_margin"
+                        android:clickable="true"
+                        android:src="@drawable/shelf_fabbutton"
+                        app:elevation="5dp"
+                        app:fabSize="mini" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/pdfread"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/fab_margin"
+                        android:clickable="true"
+                        android:src="@drawable/download_pdf"
+                        app:elevation="5dp"
+                        app:fabSize="mini" />
+                </LinearLayout>
 
             </RelativeLayout>
         </LinearLayout>
@@ -157,9 +157,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:clipToPadding="false"
                 android:orientation="vertical"
-                android:padding="8dp"
-                android:clipToPadding="false">
+                android:padding="8dp">
 
 
                 <LinearLayout
@@ -283,8 +283,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/grey"
-                            android:layout_margin="8dp"/>
+                            android:layout_margin="8dp"
+                            android:background="@color/grey" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

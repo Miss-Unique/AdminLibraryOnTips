@@ -39,33 +39,32 @@ import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class addbook extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
+public class addbook extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
 
-    DatabaseReference mDatabase,dbr;
-    EditText booktitle,bookauthor,bookISBN;
-    AutoCompleteTextView booksubject,bookshelfnumber,bookbranch;
-    Button done;
-    String[] subjects,branches,shelves;
+    DatabaseReference mDatabase, dbr;
+    EditText booktitle, bookauthor, bookISBN;
+    AutoCompleteTextView booksubject, bookshelfnumber, bookbranch;
+    Button done, addBook;
+    String[] subjects, branches, shelves;
     LinearLayout parent;
 
-    String author;
-    String title, ISBN, subject, shelfnumber, branch;
+    String author, title, ISBN, subject, shelfnumber, branch;
 
     private static final int PICK_IMAGE_REQUEST = 234;
 
     private ImageButton imageButton;
     private StorageReference mStorageRef;
-    private Uri filePath;
+    private Uri filePath = Uri.EMPTY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addbook);
 
-        bookauthor = (EditText)findViewById(R.id.bookauthor);
-        bookISBN = (EditText)findViewById(R.id.bookISBN);
+        bookauthor = (EditText) findViewById(R.id.bookauthor);
+        bookISBN = (EditText) findViewById(R.id.bookISBN);
         bookshelfnumber = (AutoCompleteTextView) findViewById(R.id.bookshelfnumber);
-        booktitle = (EditText)findViewById(R.id.booktitle);
+        booktitle = (EditText) findViewById(R.id.booktitle);
         booksubject = (AutoCompleteTextView) findViewById(R.id.booksubject);
         bookbranch = (AutoCompleteTextView) findViewById(R.id.bookbranch);
 
@@ -73,7 +72,7 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         imageButton = (ImageButton) findViewById(R.id.imageView);
-        done = (Button)findViewById(R.id.done);
+        done = (Button) findViewById(R.id.done);
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,21 +83,21 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
 
         subjects = getResources().getStringArray(R.array.subjects);
         ArrayAdapter<String> adaptersubject = new ArrayAdapter<>
-                (this,android.R.layout.simple_list_item_1,subjects);
+                (this, android.R.layout.simple_list_item_1, subjects);
         booksubject.setAdapter(adaptersubject);
         booksubject.setThreshold(1);//will start working from first character
         booksubject.setTextColor(Color.BLACK);
 
         branches = getResources().getStringArray(R.array.branches);
         ArrayAdapter<String> adapterbranch = new ArrayAdapter<>
-                (this,android.R.layout.simple_list_item_1,branches);
+                (this, android.R.layout.simple_list_item_1, branches);
         bookbranch.setAdapter(adapterbranch);
         bookbranch.setThreshold(1);//will start working from first character
         bookbranch.setTextColor(Color.BLACK);
 
         shelves = getResources().getStringArray(R.array.shelves);
         ArrayAdapter<String> adaptershelf = new ArrayAdapter<>
-                (this,android.R.layout.simple_list_item_1,shelves);
+                (this, android.R.layout.simple_list_item_1, shelves);
         bookshelfnumber.setAdapter(adaptershelf);
         bookshelfnumber.setThreshold(1);//will start working from first character
         bookshelfnumber.setTextColor(Color.BLACK);
@@ -114,18 +113,15 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
 
     private void startPost() {
 
-        if (!Arrays.asList(subjects).contains(booksubject.getText().toString().trim()))
-        {
+        if (!Arrays.asList(subjects).contains(booksubject.getText().toString().trim())) {
             booksubject.setText("");
         }
 
-        if (!Arrays.asList(branches).contains(bookbranch.getText().toString().trim()))
-        {
+        if (!Arrays.asList(branches).contains(bookbranch.getText().toString().trim())) {
             bookbranch.setText("");
         }
 
-        if (!Arrays.asList(subjects).contains(booksubject.getText().toString().trim()))
-        {
+        if (!Arrays.asList(subjects).contains(booksubject.getText().toString().trim())) {
             booksubject.setText("");
         }
 
@@ -136,27 +132,21 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
         shelfnumber = bookshelfnumber.getText().toString().trim();
         branch = bookbranch.getText().toString().trim();
 
-            if (title.isEmpty()&&author.isEmpty()&&ISBN.isEmpty()&&subject.isEmpty()&&shelfnumber.isEmpty()&&branch.isEmpty()&&filePath==null)
-            {
-                Toast.makeText(addbook.this, "Choose an Image", Toast.LENGTH_SHORT).show();
-            }
-
-        if (TextUtils.isEmpty(author) || TextUtils.isEmpty(title)||TextUtils.isEmpty(ISBN) || TextUtils.isEmpty(subject)||TextUtils.isEmpty(shelfnumber)||TextUtils.isEmpty(branch)) {
+        if (!(TextUtils.isEmpty(author) || TextUtils.isEmpty(title) || TextUtils.isEmpty(ISBN) || TextUtils.isEmpty(subject) || TextUtils.isEmpty(shelfnumber) || TextUtils.isEmpty(branch)) && filePath == Uri.EMPTY) {
+            Toast.makeText(addbook.this, "Choose an Image", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(author) || TextUtils.isEmpty(title) || TextUtils.isEmpty(ISBN) || TextUtils.isEmpty(subject) || TextUtils.isEmpty(shelfnumber) || TextUtils.isEmpty(branch)) {
             Toast.makeText(addbook.this, "Field cannot be Left Empty", Toast.LENGTH_SHORT).show();
-        }
-         else   {
+        } else {
             boolean isConnected = ConnectivityReceiver.isConnected();
             showSnack(isConnected);
 
         }
     }
 
-
     private void showSnack(boolean isConnected) {
         String message;
         int color;
-        if (isConnected)
-        {
+        if (isConnected) {
             dbr = mDatabase.child("Book").child(ISBN);
 
             dbr.child("Title").setValue(title);
@@ -168,16 +158,14 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
             dbr.child("CopiesNo").setValue("0");
             dbr.child("AvailableCopies").setValue("0");
             dbr.child("Branch").setValue(branch);
-            uploadFile();
+            uploadImage();
 
-            Toast.makeText(addbook.this,"Book Added Successfully",Toast.LENGTH_SHORT).show();
+            Toast.makeText(addbook.this, "Book Added Successfully", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(addbook.this,addcopies.class);
-            intent.putExtra("ISBN_No",ISBN);
+            Intent intent = new Intent(addbook.this, addcopies.class);
+            intent.putExtra("ISBN_No", ISBN);
             startActivity(intent);
-        }
-        else
-        {
+        } else {
             message = "Sorry! Not connected to internet";
             color = Color.RED;
 
@@ -192,15 +180,13 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         MyApplication.getInstance().setConnectivityListener(this);
     }
 
     @Override
-    public void onNetworkConnectionChanged(boolean isConnected)
-    {
+    public void onNetworkConnectionChanged(boolean isConnected) {
         showSnack(isConnected);
     }
 
@@ -227,7 +213,7 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
         }
     }
 
-    private void uploadFile() {
+    private void uploadImage() {
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading");
@@ -259,12 +245,17 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
                     });
         }
     }
+
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(addbook.this,admin_page.class));
+        startActivity(new Intent(addbook.this, admin_page.class));
         finish();
         //  db.removeEventListener(childEventListener);
 
     }
 
+
+    void uploadFile() {
+
+    }
 }
