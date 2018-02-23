@@ -99,7 +99,6 @@ public class addcopies extends AppCompatActivity {
                 if (TextUtils.isEmpty(copybarcode) || (TextUtils.isEmpty(copydop)) || TextUtils.isEmpty(copyprice)) {
                     Snackbar snackbar = Snackbar
                             .make(parent, "Fill in all the details", Snackbar.LENGTH_LONG);
-
                     snackbar.show();
                 } else {
                     boolean isConnected = ConnectivityReceiver.isConnected();

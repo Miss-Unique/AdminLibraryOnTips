@@ -1,10 +1,12 @@
 package com.example.soumyaagarwal.libraryontipsadmin.AddBook;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -28,6 +30,7 @@ import android.widget.Toast;
 import com.example.soumyaagarwal.libraryontipsadmin.Internet.ConnectivityReceiver;
 import com.example.soumyaagarwal.libraryontipsadmin.MyApplication;
 import com.example.soumyaagarwal.libraryontipsadmin.R;
+import com.example.soumyaagarwal.libraryontipsadmin.Services.UploadBookData;
 import com.example.soumyaagarwal.libraryontipsadmin.Services.UploadPhotoAndFile;
 import com.example.soumyaagarwal.libraryontipsadmin.ViewBook.AddBook;
 import com.example.soumyaagarwal.libraryontipsadmin.admin_page;
@@ -41,9 +44,17 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
+import droidninja.filepicker.FilePickerBuilder;
+import droidninja.filepicker.FilePickerConst;
+
 public class addbook extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
+    private ArrayList<String> docPaths;
+    private String selectedFilePath;
+    private String csvExt[] = {".csv"};
+    private String CSVFileName = "CSVFileName";
 
     DatabaseReference mDatabase, dbr;
     EditText booktitle, bookauthor, bookISBN;
@@ -134,6 +145,11 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
         switch (item.getItemId()) {
             case R.id.csvupload:
                 //TODO:UPLOADCSV
+                FilePickerBuilder.getInstance().setMaxCount(1)
+                        .setActivityTheme(R.style.AppTheme).enableDocSupport(false)
+                        .addFileSupport("CSV",csvExt, R.drawable.csv)
+                        .pickFile(addbook.this);
+
         }
                 return true;
     }
@@ -232,6 +248,25 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == FilePickerConst.REQUEST_CODE_DOC) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    docPaths = new ArrayList<>();
+                    docPaths.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS));
+                    selectedFilePath = docPaths.get(0);
+                    if(selectedFilePath.substring(selectedFilePath.lastIndexOf('.')).equals(".csv"))
+                    {
+                        Intent intent = new Intent(addbook.this,UploadBookData.class);
+                        intent.putExtra(CSVFileName,selectedFilePath);
+                        startService(intent);
+                    }
+                    else
+                    {
+                        Toast.makeText(addbook.this,"Only CSV files are allowed",Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        }
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
             //data.getType()
