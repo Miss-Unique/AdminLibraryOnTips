@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.soumyaagarwal.libraryontipsadmin.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -65,9 +64,14 @@ public class ViewBookAdapter extends RecyclerView.Adapter<ViewBookAdapter.MyView
         final viewbd book = bookList.get(position);
         holder.book_name.setText(book.getBook_name());
         holder.book_author.setText(book.getBook_author());
-        Glide.with(context.getApplicationContext()).load(R.drawable.samplebook)
+        /*Glide.with(context.getApplicationContext()).load(R.drawable.samplebook)
                 .thumbnail(0.5f)
                 .apply(new RequestOptions().fitCenter().placeholder(R.drawable.samplebook).diskCacheStrategy(DiskCacheStrategy.ALL).override(150, 150))
+                .into(holder.book_image);*/
+
+        Glide.with(context.getApplicationContext()).load(R.drawable.samplebook)
+                .thumbnail(0.5f)
+                .crossFade().placeholder(R.drawable.samplebook).diskCacheStrategy(DiskCacheStrategy.ALL).override(150, 150)
                 .into(holder.book_image);
 
         StorageReference image_storage = FirebaseStorage.getInstance().getReference().child("image");
@@ -76,9 +80,14 @@ public class ViewBookAdapter extends RecyclerView.Adapter<ViewBookAdapter.MyView
             @Override
             public void onSuccess(Uri uri) {
                 String download_url = uri.toString();
-                Glide.with(context.getApplicationContext()).load(download_url)
+                /*Glide.with(context.getApplicationContext()).load(download_url)
                         .thumbnail(0.5f)
                         .apply(new RequestOptions().fitCenter().placeholder(R.drawable.ic_name).diskCacheStrategy(DiskCacheStrategy.ALL).override(150, 150))
+                        .into(holder.book_image);*/
+
+                Glide.with(context.getApplicationContext()).load(download_url)
+                        .thumbnail(0.5f)
+                        .crossFade().placeholder(R.drawable.ic_name).diskCacheStrategy(DiskCacheStrategy.ALL).override(150, 150)
                         .into(holder.book_image);
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -92,5 +101,4 @@ public class ViewBookAdapter extends RecyclerView.Adapter<ViewBookAdapter.MyView
     public int getItemCount() {
         return bookList.size();
     }
-
 }

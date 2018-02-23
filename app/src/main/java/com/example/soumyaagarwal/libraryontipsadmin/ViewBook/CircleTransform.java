@@ -44,8 +44,13 @@ public class CircleTransform extends BitmapTransformation {
         return result;
     }
 
-    @Override
+/*    @Override
     public void updateDiskCacheKey(MessageDigest messageDigest) {
 
+    }*/
+
+    @Override
+    public String getId() {
+        return null;
     }
 }

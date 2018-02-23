@@ -35,7 +35,6 @@ dependencies {
     compile "com.google.firebase:firebase-database:$rootProject.firebaseVersion"
     compile "com.google.firebase:firebase-storage:$rootProject.firebaseVersion"
 
-
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
     compile 'com.opencsv:opencsv:3.9'
     compile 'com.droidninja:filepicker:2.0.6'

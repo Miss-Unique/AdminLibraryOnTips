@@ -1,25 +1,18 @@
 package com.example.soumyaagarwal.libraryontipsadmin.ViewBook;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.soumyaagarwal.libraryontipsadmin.LibraryMap.MapL;
 import com.example.soumyaagarwal.libraryontipsadmin.ModelClass.Book;
 import com.example.soumyaagarwal.libraryontipsadmin.R;
@@ -102,12 +95,12 @@ public class BD extends AppCompatActivity {
                     }
                 });
 
-               pdfread.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       //TODO: DOwnload PDF
-                   }
-               });
+                pdfread.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //TODO: DOwnload PDF
+                    }
+                });
 
                 image_storage.child(isbn).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
@@ -120,9 +113,14 @@ public class BD extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), "Can not load image", Toast.LENGTH_SHORT).show();
                     }
                 });
-                Glide.with(BD.this).load(download_url)
+                /*Glide.with(BD.this).load(download_url)
                         .thumbnail(0.5f)
                         .apply(new RequestOptions().fitCenter().placeholder(R.drawable.ic_name).transform(new CircleTransform(BD.this)).diskCacheStrategy(DiskCacheStrategy.ALL))
+                        .into(image);*/
+
+                Glide.with(BD.this).load(download_url)
+                        .thumbnail(0.5f)
+                        .crossFade().placeholder(R.drawable.ic_name).transform(new CircleTransform(BD.this)).diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(image);
                 //TODO: Picasso.with(getBaseContext()).load(download_url).placeholder(R.drawable.placeholder).into(image);
 

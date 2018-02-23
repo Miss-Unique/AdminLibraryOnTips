@@ -26,6 +26,8 @@ import android.widget.Toast;
 import com.example.soumyaagarwal.libraryontipsadmin.Internet.ConnectivityReceiver;
 import com.example.soumyaagarwal.libraryontipsadmin.MyApplication;
 import com.example.soumyaagarwal.libraryontipsadmin.R;
+import com.example.soumyaagarwal.libraryontipsadmin.Services.UploadPhotoAndFile;
+import com.example.soumyaagarwal.libraryontipsadmin.ViewBook.AddBook;
 import com.example.soumyaagarwal.libraryontipsadmin.admin_page;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,17 +46,19 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
     DatabaseReference mDatabase, dbr;
     EditText booktitle, bookauthor, bookISBN;
     AutoCompleteTextView booksubject, bookshelfnumber, bookbranch;
-    Button done, addBook;
+    Button done;
     String[] subjects, branches, shelves;
     LinearLayout parent;
 
     String author, title, ISBN, subject, shelfnumber, branch;
 
     private static final int PICK_IMAGE_REQUEST = 234;
-
-    private ImageButton imageButton;
+    private static final int PICK_PDF_REQUEST = 235;
+    private ImageButton addimg, addpdf;
     private StorageReference mStorageRef;
     private Uri filePath = Uri.EMPTY;
+    private Uri filePathPDF = Uri.EMPTY;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +75,8 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        imageButton = (ImageButton) findViewById(R.id.imageView);
+        addimg = (ImageButton) findViewById(R.id.uploadimage);
+        addpdf = (ImageButton) findViewById(R.id.uploadpdf);
         done = (Button) findViewById(R.id.done);
 
         done.setOnClickListener(new View.OnClickListener() {
@@ -102,13 +107,20 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
         bookshelfnumber.setThreshold(1);//will start working from first character
         bookshelfnumber.setTextColor(Color.BLACK);
 
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        addimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showFileChooser();
             }
         });
 
+        addpdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Upload PDF
+                showPdfChooser();
+            }
+        });
     }
 
     private void startPost() {
@@ -132,7 +144,7 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
         shelfnumber = bookshelfnumber.getText().toString().trim();
         branch = bookbranch.getText().toString().trim();
 
-        if (!(TextUtils.isEmpty(author) || TextUtils.isEmpty(title) || TextUtils.isEmpty(ISBN) || TextUtils.isEmpty(subject) || TextUtils.isEmpty(shelfnumber) || TextUtils.isEmpty(branch)) && filePath == Uri.EMPTY) {
+        if (!(TextUtils.isEmpty(author) || TextUtils.isEmpty(title) || TextUtils.isEmpty(ISBN) || TextUtils.isEmpty(subject) || TextUtils.isEmpty(shelfnumber) || TextUtils.isEmpty(branch)) && filePath == Uri.EMPTY && filePathPDF == Uri.EMPTY) {
             Toast.makeText(addbook.this, "Choose an Image", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(author) || TextUtils.isEmpty(title) || TextUtils.isEmpty(ISBN) || TextUtils.isEmpty(subject) || TextUtils.isEmpty(shelfnumber) || TextUtils.isEmpty(branch)) {
             Toast.makeText(addbook.this, "Field cannot be Left Empty", Toast.LENGTH_SHORT).show();
@@ -149,16 +161,14 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
         if (isConnected) {
             dbr = mDatabase.child("Book").child(ISBN);
 
-            dbr.child("Title").setValue(title);
-            dbr.child("Author").setValue(author);
-            dbr.child("ShelfNo").setValue(shelfnumber);
-            dbr.child("Subject").setValue(subject);
-            dbr.child("Ratings").setValue("0");
-            dbr.child("RatingPeopleNumber").setValue("0");
-            dbr.child("CopiesNo").setValue("0");
-            dbr.child("AvailableCopies").setValue("0");
-            dbr.child("Branch").setValue(branch);
-            uploadImage();
+            AddBook addBook = new AddBook(title,author,shelfnumber,subject,"0","0","0","0",branch);
+            dbr.setValue(addBook);
+
+            Intent serviceIntent = new Intent(this, UploadPhotoAndFile.class);
+            serviceIntent.putExtra("filepathpdf",filePathPDF);
+            serviceIntent.putExtra("filepathimg",filePath);
+            serviceIntent.putExtra("isbn",ISBN);
+            startService(serviceIntent);
 
             Toast.makeText(addbook.this, "Book Added Successfully", Toast.LENGTH_SHORT).show();
 
@@ -197,6 +207,13 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
+    private void showPdfChooser() {
+        Intent intent = new Intent();
+        intent.setType("pdf/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select PDF"), PICK_PDF_REQUEST);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -205,15 +222,21 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
             //data.getType()
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageButton.setImageBitmap(bitmap);
+                addimg.setImageBitmap(bitmap);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
+        else if (requestCode == PICK_PDF_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            filePathPDF = data.getData();
+            addpdf.setImageResource(R.drawable.addpdf);
+
+        }
     }
 
-    private void uploadImage() {
+    /*private void uploadImage() {
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading");
@@ -246,16 +269,43 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
         }
     }
 
+    private void uploadPDF() {
+        if (filePath != null) {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading");
+            progressDialog.show();
+
+            StorageReference riversRef = mStorageRef.child("pdf").child(ISBN);
+            riversRef.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                            progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
+                        }
+                    });
+        }
+    }*/
+
     @Override
     public void onBackPressed() {
         startActivity(new Intent(addbook.this, admin_page.class));
         finish();
         //  db.removeEventListener(childEventListener);
-
-    }
-
-
-    void uploadFile() {
 
     }
 }
