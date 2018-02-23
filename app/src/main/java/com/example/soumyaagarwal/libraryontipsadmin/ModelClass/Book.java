@@ -14,11 +14,10 @@ public class Book {
     private String RatingPeopleNumber;
     private String CopiesNo;
     private String AvailableCopies;
-    private String Path;
-//    HashMap<String,Integer> RatingPeople;
+      HashMap<String,Integer> RatingPeople;
 //    ArrayList<String> BarCodeCopies = new ArrayList<>();
 
-    public Book(String ISBN_No, String title, String author, String subject, String branch, String shelfNo, String ratings, String ratingPeopleNumber, String copiesNo, String availableCopies, String noOfPages, String path) {
+    public Book(String ISBN_No, String title, String author, String subject, String branch, String shelfNo, String ratings, String ratingPeopleNumber, String copiesNo, String availableCopies, String noOfPages) {
         this.ISBN_No = ISBN_No;
         Title = title;
         Author = author;
@@ -123,14 +122,6 @@ public class Book {
 
     public String getAvailableCopies() {
         return AvailableCopies;
-    }
-
-    public String getPath() {
-        return Path;
-    }
-
-    public void setPath(String path) {
-        Path = path;
     }
 
     public Book() {

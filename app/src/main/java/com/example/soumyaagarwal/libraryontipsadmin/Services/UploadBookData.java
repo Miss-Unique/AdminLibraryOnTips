@@ -29,12 +29,12 @@ public class UploadBookData extends IntentService {
                     String nextLine[];
                     while ((nextLine = reader.readNext()) != null) {
                         // nextLine[] is an array of values from the line
-                        Book book = new Book(nextLine[0],nextLine[1],nextLine[2],nextLine[3],nextLine[4],nextLine[5],"0","0",nextLine[6],nextLine[6],nextLine[7],nextLine[8]);
+                        Book book = new Book(nextLine[0],nextLine[1],nextLine[2],nextLine[3],nextLine[4],nextLine[5],"0","0",nextLine[6],nextLine[6],nextLine[7]);
                         DBREF=FirebaseDatabase.getInstance().getReference();
                         DBREF.child("Book").child(nextLine[0]).setValue(book);
                         for (int i = 0,j=Integer.parseInt(nextLine[6]);i<j;i++)
                         {
-                            CopyBook copyBook = new CopyBook(nextLine[i+11],nextLine[9],nextLine[0],nextLine[10],"null","null","null");
+                            CopyBook copyBook = new CopyBook(nextLine[i+10],nextLine[8],nextLine[0],nextLine[9],"null","null","null");
                             DBREF.child("CopyBook").child(nextLine[i+9]).setValue(copyBook);
                         }
                     }
