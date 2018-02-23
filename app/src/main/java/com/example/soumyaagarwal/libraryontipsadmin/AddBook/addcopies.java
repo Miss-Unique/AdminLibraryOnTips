@@ -9,6 +9,7 @@ import com.example.soumyaagarwal.libraryontipsadmin.ViewBook.viewbd;
 import com.example.soumyaagarwal.libraryontipsadmin.admin_page;
 import com.example.soumyaagarwal.libraryontipsadmin.android.IntentIntegrator;
 import com.example.soumyaagarwal.libraryontipsadmin.android.IntentResult;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -45,19 +46,18 @@ import java.util.List;
 import com.example.soumyaagarwal.libraryontipsadmin.ModelClass.CopyBook;
 import com.google.firebase.database.ValueEventListener;
 
-public class addcopies extends AppCompatActivity
-{
-    DatabaseReference mDatabase,dbr,db,db2,db3;
+public class addcopies extends AppCompatActivity {
+    DatabaseReference mDatabase, dbr, db, db2, db3;
     Button add;
     FloatingActionButton scanbarcode;
-    EditText barcode,price,dop;
+    EditText barcode, price, dop;
     TextView ISBN;
-    String copyISBN, copybarcode, copyprice,copydop;
+    String copyISBN, copybarcode, copyprice, copydop;
     private List<CopyBook> bookList;
     public RecyclerView recyclerView;
     private BookAdapter mAdapter;
     LinearLayoutManager mLayoutManager;
-    ChildEventListener childEventListener,childEventListener2;
+    ChildEventListener childEventListener, childEventListener2;
     ScrollView parent;
 
     @Override
@@ -80,10 +80,10 @@ public class addcopies extends AppCompatActivity
         scanbarcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                        IntentIntegrator scanIntegrator = new IntentIntegrator(addcopies.this);
-                        scanIntegrator.initiateScan();
+                IntentIntegrator scanIntegrator = new IntentIntegrator(addcopies.this);
+                scanIntegrator.initiateScan();
 
-                    }
+            }
         });
 
         add.setOnClickListener(new View.OnClickListener() {
@@ -95,16 +95,11 @@ public class addcopies extends AppCompatActivity
                 copyprice = price.getText().toString();
                 copybarcode = barcode.getText().toString();
 
-                if (TextUtils.isEmpty(copybarcode) || (TextUtils.isEmpty(copydop)) || TextUtils.isEmpty(copyprice))
-                {
+                if (TextUtils.isEmpty(copybarcode) || (TextUtils.isEmpty(copydop)) || TextUtils.isEmpty(copyprice)) {
                     Snackbar snackbar = Snackbar
                             .make(parent, "Fill in all the details", Snackbar.LENGTH_LONG);
-
                     snackbar.show();
-                }
-
-                else
-                {
+                } else {
                     boolean isConnected = ConnectivityReceiver.isConnected();
                     showSnack2(isConnected);
                 }
@@ -119,15 +114,14 @@ public class addcopies extends AppCompatActivity
         if (scanningResult != null) {
             String scanContent = scanningResult.getContents();
             barcode.setText(scanContent);
-        }
-        else{
+        } else {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "No scan data received!", Toast.LENGTH_SHORT);
             toast.show();
         }
     }
 
-        class ChildAddAsync extends AsyncTask<String, String, String> {
+    class ChildAddAsync extends AsyncTask<String, String, String> {
 
         ProgressDialog pd;
 
@@ -145,42 +139,41 @@ public class addcopies extends AppCompatActivity
         protected String doInBackground(final String... params) {
             try {
 
-                    db = mDatabase.child("CopyBook").getRef();
+                db = mDatabase.child("CopyBook").getRef();
 
-                    childEventListener = db.addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                            CopyBook book = dataSnapshot.getValue(CopyBook.class);
-                            if(book.getISBN_No().equals(copyISBN))
-                            {
-                                book.setBarCode(dataSnapshot.getKey());
-                                bookList.add(book);
-                                mAdapter.notifyDataSetChanged();
-                            }
-                            pd.dismiss();
+                childEventListener = db.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        CopyBook book = dataSnapshot.getValue(CopyBook.class);
+                        if (book.getISBN_No().equals(copyISBN)) {
+                            book.setBarCode(dataSnapshot.getKey());
+                            bookList.add(book);
+                            mAdapter.notifyDataSetChanged();
                         }
+                        pd.dismiss();
+                    }
 
-                        @Override
-                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                        }
+                    }
 
-                        @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                        }
+                    }
 
-                        @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                        }
+                    }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            pd.dismiss();
-                        }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        pd.dismiss();
+                    }
 
-                    });
+                });
             } catch (Exception e) {
                 e.printStackTrace();
 
@@ -191,8 +184,7 @@ public class addcopies extends AppCompatActivity
         }
 
         @Override
-        protected void onPostExecute(String j)
-        {
+        protected void onPostExecute(String j) {
 
         }
     }
@@ -200,8 +192,7 @@ public class addcopies extends AppCompatActivity
     private void showSnack2(boolean isConnected) {
         String message;
         int color;
-        if (isConnected)
-        {
+        if (isConnected) {
             dbr = mDatabase.child("CopyBook").child(copybarcode);
 
             dbr.child("ISBN_No").setValue(copyISBN);
@@ -211,7 +202,6 @@ public class addcopies extends AppCompatActivity
             dbr.child("IssuedStatus").setValue("null");
             dbr.child("DateIssued").setValue("null");
 
-
             bookList = new ArrayList<>();
             addingrows(bookList);
             new ChildAddAsync().execute();
@@ -220,18 +210,16 @@ public class addcopies extends AppCompatActivity
 
             childEventListener2 = db2.addChildEventListener(new ChildEventListener() {
                 @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s)
-                {
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Book b = dataSnapshot.getValue(Book.class);
 
                     String k = dataSnapshot.getKey();
-                    int a = Integer.parseInt(b.getCopiesNo())+1;
-                    int c = Integer.parseInt(b.getAvailableCopies())+1;
+                    int a = Integer.parseInt(b.getCopiesNo()) + 1;
+                    int c = Integer.parseInt(b.getAvailableCopies()) + 1;
                     String A = String.valueOf(a);
                     String C = String.valueOf(c);
 
-                    if(k.equals(copyISBN))
-                    {
+                    if (k.equals(copyISBN)) {
                         db2.child(copyISBN).child("CopiesNo").setValue(A);
                         db2.child(copyISBN).child("AvailableCopies").setValue(C);
                         db2.child(copyISBN).child("BarCodeCopies").child(copybarcode).setValue(copybarcode);
@@ -259,14 +247,11 @@ public class addcopies extends AppCompatActivity
                 }
             });
 
-            Toast.makeText(addcopies.this,"copy added",Toast.LENGTH_SHORT).show();
+            Toast.makeText(addcopies.this, "Copy Added", Toast.LENGTH_SHORT).show();
             dop.setText("");
             price.setText("");
             barcode.setText("");
-
-        }
-        else
-        {
+        } else {
             message = "Sorry! Not connected to internet";
             color = Color.RED;
             Snackbar snackbar = Snackbar
@@ -279,28 +264,23 @@ public class addcopies extends AppCompatActivity
         }
     }
 
-    private void addingrows(final List<CopyBook> k)
-    {
+    private void addingrows(final List<CopyBook> k) {
         mAdapter = new BookAdapter(k);
         mLayoutManager = new LinearLayoutManager(addcopies.this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mAdapter);
-
     }
+
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
     }
 
-
     @Override
     public void onBackPressed() {
-        if(childEventListener2!=null)
-        db2.removeEventListener(childEventListener2);
-        startActivity(new Intent(addcopies.this,admin_page.class));
+        if (childEventListener2 != null)
+            db2.removeEventListener(childEventListener2);
+        startActivity(new Intent(addcopies.this, admin_page.class));
         finish();
-      //  db.removeEventListener(childEventListener);
-
     }
 }
