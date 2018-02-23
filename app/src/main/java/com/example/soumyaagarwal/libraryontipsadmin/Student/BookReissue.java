@@ -46,24 +46,27 @@ public class BookReissue extends AppCompatActivity{
     String copyBookBarCode="",RollNo;
     CopyBook copyBook;
     Integer FinePerDay=1;
+    public static String ReIssueActivity = "ReIssueActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RollNo = getIntent().getExtras().getString("sturollno");
-
+        Intent intent =getIntent();
+        RollNo = intent.getStringExtra("sturollno");
+        String barcode = intent.getStringExtra(QRCodeScanner.QRCode);
         setContentView(R.layout.activity_book_reissue);
-
         reissueBarCode = (EditText)findViewById(R.id.reissueBarCode);
         scanreissueBarCode = (Button)findViewById(R.id.scanreissueBarCode) ;
         reissueBookButton = (Button) findViewById(R.id.reissueBookButton) ;
-
+        reissueBarCode.setText(barcode);
         scanreissueBarCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentIntegrator scanIntegrator = new IntentIntegrator(BookReissue.this);
-                scanIntegrator.initiateScan();
-            }
+                Intent intent = new Intent(BookReissue.this,QRCodeScanner.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("sturollno",RollNo);
+                intent.putExtra(QRCodeScanner.activity,ReIssueActivity);
+                startActivity(intent);    }
         });
 
         reissueBookButton.setOnClickListener(new View.OnClickListener() {
