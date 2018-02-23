@@ -38,19 +38,22 @@ public class BookIssue extends AppCompatActivity
     SimpleDateFormat sdf;
     Book book;
     CopyBook cbook;
+    private String barcode_editText;
+    public static String IssueActivity = "IssueActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_issue);
-
+        Intent intent = getIntent();
         issuebarcode = (EditText)findViewById(R.id.issuebarcode);
         scanissuebarcode = (Button)findViewById(R.id.scanissuebarcode);
         issuethis = (Button)findViewById(R.id.issuethis);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        sturollno = getIntent().getExtras().getString("sturollno");
-
+        sturollno = intent.getStringExtra("sturollno");
+        barcode_editText = intent.getStringExtra(QRCodeScanner.QRCode);
+        issuethis.setText(barcode_editText);
         cal = Calendar.getInstance();
         sdf = new SimpleDateFormat("dd-MM-yyyy");
         calr = Calendar.getInstance();
@@ -61,8 +64,11 @@ public class BookIssue extends AppCompatActivity
         scanissuebarcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentIntegrator scanIntegrator = new IntentIntegrator(BookIssue.this);
-                scanIntegrator.initiateScan();
+                Intent intent = new Intent(BookIssue.this,QRCodeScanner.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("sturollno",sturollno);
+                intent.putExtra(QRCodeScanner.activity,IssueActivity);
+                startActivity(intent);
             }
         });
 
