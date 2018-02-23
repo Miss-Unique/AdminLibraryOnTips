@@ -11,6 +11,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -55,7 +57,6 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
     private static final int PICK_IMAGE_REQUEST = 234;
     private static final int PICK_PDF_REQUEST = 235;
     private ImageButton addimg, addpdf;
-    private StorageReference mStorageRef;
     private Uri filePath = Uri.EMPTY;
     private Uri filePathPDF = Uri.EMPTY;
 
@@ -74,7 +75,6 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        mStorageRef = FirebaseStorage.getInstance().getReference();
         addimg = (ImageButton) findViewById(R.id.uploadimage);
         addpdf = (ImageButton) findViewById(R.id.uploadpdf);
         done = (Button) findViewById(R.id.done);
@@ -121,6 +121,21 @@ public class addbook extends AppCompatActivity implements ConnectivityReceiver.C
                 showPdfChooser();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.csvupload, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.csvupload:
+                //TODO:UPLOADCSV
+        }
+                return true;
     }
 
     private void startPost() {
